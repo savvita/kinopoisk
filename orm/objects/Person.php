@@ -2,15 +2,15 @@
 
 namespace objects;
 
-abstract class Person
+class Person
 {
     private int $id;
     private string $name;
 
     public function __construct($id, $name)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->setId($id);
+        $this->setName($name);
     }
 
     public function getId(): int {
@@ -25,6 +25,10 @@ abstract class Person
     }
 
     public function setName(string $name): void {
+        if(empty($name) || strlen($name) > 100) {
+            return;
+        }
+
         $this->name = $name;
     }
 
@@ -41,6 +45,6 @@ abstract class Person
             return false;
         }
 
-        return $this->id === $person->id && $this->name === $person->name;
+        return $this->id === $person->id && $this->name === $person->getName();
     }
 }

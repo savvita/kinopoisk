@@ -14,23 +14,21 @@ class Movie
     private float $rate;
     private int $votes;
     private bool $premium;
-    private $directors = [];
-    private $actors = [];
+    private array $staff = [];
 
-    public function __construct($id, $title, $originalTitle, $description, $year, $duration, $category, $rate, $votes, $premium, $directors = [], $actors = [])
+    public function __construct($id, $title, $originalTitle, $description, $year, $duration, $category, $rate, $votes, $premium, $staff = [])
     {
         $this->setId($id);
         $this->setTitle($title);
         $this->setOriginalTitle($originalTitle);
         $this->setDescription($description);
         $this->setYear($year);
-        $this->setYear($duration);
+        $this->setDuration($duration);
         $this->setCategory($category);
         $this->setRate($rate);
         $this->setVotes($votes);
         $this->setPremium($premium);
-        $this->addDirectors($directors);
-        $this->addActors($actors);
+        $this->addStaff(...$staff);
     }
 
     public function getId(): int {
@@ -70,13 +68,10 @@ class Movie
     }
 
 
-    public function getActors(): array {
-        return $this->actors;
+    public function getStaff(): array {
+        return $this->staff;
     }
 
-    public function getDirectors(): array {
-        return $this->directors;
-    }
 
     public function getPremium(): bool {
         return $this->premium;
@@ -104,17 +99,13 @@ class Movie
 
     public function setCategory(Category $category): void
     {
-        if($category !== null && $category instanceof Category) {
+        if($category !== null) {
             $this->category = $category;
         }
     }
 
     public function setDescription(string $description): void {
-        if(strlen($description) > 500) {
-            return;
-        }
-
-        $this->description = $description;
+        $this->description = substr($description, 0, 1000);
     }
 
     public function setDuration(int $duration): void {
@@ -145,26 +136,17 @@ class Movie
     }
 
     public function setYear(int $year): void {
-        if($year < 1900 || $year > $year = getdate()["year"]) {
+        if($year < 1900 || $year > getdate()["year"]) {
             return;
         }
 
         $this->year = $year;
     }
 
-
-    public function addActors(...$artists) : void {
-        foreach($artists as $artist) {
-            if($artist instanceof Artist) {
-                $this->actors[] = $artist;
-            }
-        }
-    }
-
-    public function addDirectors($directors) : void {
-        foreach($directors as $director) {
-            if($director instanceof Director) {
-                $this->actors[] = $director;
+    public function addStaff(...$staff) : void {
+        foreach($staff as $employee) {
+            if($employee instanceof Employee) {
+                $this->staff[] = $employee;
             }
         }
     }

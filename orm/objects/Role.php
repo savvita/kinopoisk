@@ -2,10 +2,11 @@
 
 namespace objects;
 
-class Category
+class Role
 {
     private int $id;
     private string $value;
+
     public function __construct($id, $value)
     {
         $this->setId($id);
@@ -23,10 +24,11 @@ class Category
         $this->id = $id;
     }
 
-    public function setValue(string $value): void  {
+    public function setValue(string $value): void {
         if(empty($value) || strlen($value) > 50) {
             return;
         }
+
         $this->value = $value;
     }
 
@@ -34,15 +36,15 @@ class Category
         return $this->value;
     }
 
-    public function equals($category) : bool {
-        if($category === null) {
+    public function equals($role) : bool {
+        if($role === null) {
             return false;
         }
 
-        if(!($category instanceof Category)) {
+        if(!($role instanceof Role)) {
             return false;
         }
 
-        return $this->id === $category->id && $this->value === $category->value;
+        return $this->id === $role->id && $this->value === $role->value;
     }
 }
