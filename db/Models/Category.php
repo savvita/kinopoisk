@@ -1,12 +1,11 @@
 <?php
 
-namespace objects;
+namespace models;
 
-class Role
+class Category
 {
     private int $id;
     private string $value;
-
     public function __construct($id, $value)
     {
         $this->setId($id);
@@ -24,11 +23,10 @@ class Role
         $this->id = $id;
     }
 
-    public function setValue(string $value): void {
+    public function setValue(string $value): void  {
         if(empty($value) || strlen($value) > 50) {
             return;
         }
-
         $this->value = $value;
     }
 
@@ -36,15 +34,15 @@ class Role
         return $this->value;
     }
 
-    public function equals($role) : bool {
-        if($role === null) {
+    public function equals($category) : bool {
+        if($category === null) {
             return false;
         }
 
-        if(!($role instanceof Role)) {
+        if(!($category instanceof Category)) {
             return false;
         }
 
-        return $this->id === $role->id && $this->value === $role->value;
+        return $this->id === $category->id && $this->value === $category->value;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace objects;
+namespace models;
 
 class Movie
 {

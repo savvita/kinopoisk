@@ -1,9 +1,9 @@
 <?php
 
 namespace controllers;
-use objects;
-require_once 'orm/objects/Role.php';
-require_once 'orm/controllers/Repository.php';
+use models;
+require_once 'db/Models/Role.php';
+require_once 'db/Controllers/Repository.php';
 
 class RoleRepository extends Repository
 {
@@ -28,7 +28,7 @@ class RoleRepository extends Repository
             $stmt->bind_param('s', $value);
 
             if ($stmt->execute() === true) {
-                $result = new \objects\Role($connection->insert_id, $entity->getValue());
+                $result = new \models\Role($connection->insert_id, $entity->getValue());
             }
 
         } finally {
@@ -63,7 +63,7 @@ class RoleRepository extends Repository
             $result = $stmt->get_result();
 
             while ($row = $result->fetch_array(MYSQLI_NUM)) {
-                $values[] = new objects\Role($row[0], $row[1]);
+                $values[] = new models\Role($row[0], $row[1]);
             }
 
         } finally {

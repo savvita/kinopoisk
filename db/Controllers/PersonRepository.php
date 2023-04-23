@@ -1,9 +1,9 @@
 <?php
 
 namespace controllers;
-use objects;
-require_once 'orm/objects/Person.php';
-require_once 'orm/controllers/Repository.php';
+use models;
+require_once 'db/Models/Person.php';
+require_once 'db/Controllers/Repository.php';
 
 class PersonRepository extends Repository
 {
@@ -28,7 +28,7 @@ class PersonRepository extends Repository
             $stmt->bind_param('s', $value);
 
             if ($stmt->execute() === true) {
-                $result = new \objects\Person($connection->insert_id, $entity->getName());
+                $result = new \models\Person($connection->insert_id, $entity->getName());
             }
 
         } finally {
@@ -63,7 +63,7 @@ class PersonRepository extends Repository
             $result = $stmt->get_result();
 
             while ($row = $result->fetch_array(MYSQLI_NUM)) {
-                $values[] = new objects\Person($row[0], $row[1]);
+                $values[] = new models\Person($row[0], $row[1]);
             }
 
         } finally {

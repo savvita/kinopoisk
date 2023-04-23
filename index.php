@@ -1,5 +1,5 @@
 <?php
-require_once 'orm/UOW.php';
+require_once 'db/UOW.php';
 /* Create and Update Movie */
 //    $res = null;
 //    if(isset($_POST['submit']) ) {
@@ -17,7 +17,7 @@ require_once 'orm/UOW.php';
 ////        $roles = $_POST['staff_roles'];
 ////        $staff = [];
 ////        for($i = 0; $i < count($people); $i++) {
-////            $staff[] = new objects\Employee(0, new objects\Person($people[$i], ""), new \objects\Role($roles[$i], ""));
+////            $staff[] = new Models\Employee(0, new Models\Person($people[$i], ""), new \Models\Role($roles[$i], ""));
 ////        }
 //        $staff_ids = $_POST['staff'];
 //        print_r($_POST['staff']);
@@ -26,11 +26,11 @@ require_once 'orm/UOW.php';
 //            if(empty($emp)){
 //                continue;
 //            }
-//            $staff[] = new \objects\Employee(intval($emp), new \objects\Person(intval($emp), ""), new \objects\Role(1, ""));
+//            $staff[] = new \Models\Employee(intval($emp), new \Models\Person(intval($emp), ""), new \Models\Role(1, ""));
 //        }
 //
-//        $uow = new \orm\UOW(orm\DB::getInstance());
-//        $movie = new objects\Movie($id, $title, $originalTitle, $description, $year, $duration, new objects\Category($categoryId, ""), $rate, $votes, $premium, [...$staff]);
+//        $uow = new \db\UOW(db\DB::getInstance());
+//        $movie = new Models\Movie($id, $title, $originalTitle, $description, $year, $duration, new Models\Category($categoryId, ""), $rate, $votes, $premium, [...$staff]);
 //        echo '<pre>';
 //        print_r($movie);
 //        echo '</pre>';
@@ -44,30 +44,30 @@ require_once 'orm/UOW.php';
     if(isset($_POST['submit']) ) {
         $id = $_POST['id'] ?? 0;
 
-        $uow = new \orm\UOW(orm\DB::getInstance());
+        $uow = new \db\UOW(db\DB::getInstance());
 
         $res = $uow->getMovies()->delete($id);
 
     }
 /* End Create */
 
-$uow = new \orm\UOW(orm\DB::getInstance());
+$uow = new \db\UOW(db\DB::getInstance());
     $movies = $uow->getMovies()->select();
 ?>
 
 
 <?php
-//    require_once 'orm/UOW.php';
+//    require_once 'db/UOW.php';
 //
 ///* Create */
 ////    $res = null;
 ////    if(isset($_POST['value']) && !empty($_POST['value'])) {
 ////        $value = trim($_POST['value']);
 ////        if (strlen($value > 0) && strlen($value) < 50) {
-////            $uow = new \orm\UOW(orm\DB::getInstance());
-////            $res = $uow->getPeople()->create(new objects\Person(0, $value));
-////            //$res = $uow->getRoles()->create(new objects\Role(0, $value));
-////            //$res = $uow->getCategories()->create(new objects\Category(0, $value));
+////            $uow = new \db\UOW(db\DB::getInstance());
+////            $res = $uow->getPeople()->create(new Models\Person(0, $value));
+////            //$res = $uow->getRoles()->create(new Models\Role(0, $value));
+////            //$res = $uow->getCategories()->create(new Models\Category(0, $value));
 ////        }
 ////    }
 ///* End Create */
@@ -77,10 +77,10 @@ $uow = new \orm\UOW(orm\DB::getInstance());
 ////    if(isset($_POST['id']) && isset($_POST['value']) && !empty($_POST['value'])) {
 ////        $value = trim($_POST['value']);
 ////        if (strlen($value > 0) && strlen($value) < 50) {
-////            $uow = new \orm\UOW(orm\DB::getInstance());
-//////            $res = $uow->getCategories()->update(new objects\Category($_POST['id'], $value));
-////            //$res = $uow->getRoles()->update(new objects\Role($_POST['id'], $value));
-////            $res = $uow->getPeople()->update(new objects\Person($_POST['id'], $value));
+////            $uow = new \db\UOW(db\DB::getInstance());
+//////            $res = $uow->getCategories()->update(new Models\Category($_POST['id'], $value));
+////            //$res = $uow->getRoles()->update(new Models\Role($_POST['id'], $value));
+////            $res = $uow->getPeople()->update(new Models\Person($_POST['id'], $value));
 ////        }
 ////
 ////    }
@@ -91,7 +91,7 @@ $uow = new \orm\UOW(orm\DB::getInstance());
 //$res = null;
 //if(isset($_POST['id'])) {
 //
-//    $uow = new \orm\UOW(orm\DB::getInstance());
+//    $uow = new \db\UOW(db\DB::getInstance());
 //    $res = $uow->getPeople()->delete($_POST['id']);
 //    //$res = $uow->getRoles()->delete($_POST['id']);
 ////    $res = $uow->getCategories()->delete($_POST['id']);
@@ -100,7 +100,7 @@ $uow = new \orm\UOW(orm\DB::getInstance());
 ///* End Delete */
 //
 //
-//    $uow = new \orm\UOW(orm\DB::getInstance());
+//    $uow = new \db\UOW(db\DB::getInstance());
 //    //$values = $uow->getCategories()->select();
 //    //$values = $uow->getRoles()->select();
 //    $values = $uow->getPeople()->select();

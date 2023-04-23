@@ -1,10 +1,10 @@
 <?php
 
 namespace controllers;
-use objects;
-require_once 'orm/objects/Movie.php';
-require_once 'orm/objects/Employee.php';
-require_once 'orm/controllers/Repository.php';
+use models;
+require_once 'db/Models/Movie.php';
+require_once 'db/Models/Employee.php';
+require_once 'db/Controllers/Repository.php';
 
 class MovieRepository extends Repository
 {
@@ -40,7 +40,7 @@ class MovieRepository extends Repository
             $stmt->bind_param('sssiiidii', $title, $originalTitle, $description, $year, $duration, $categoryId, $rates, $votes, $premium);
 
             if ($stmt->execute() === true) {
-                $result = new \objects\Movie($connection->insert_id, $title, $originalTitle, $description, $year, $duration, $category, $rates, $votes, $premium);
+                $result = new \models\Movie($connection->insert_id, $title, $originalTitle, $description, $year, $duration, $category, $rates, $votes, $premium);
                 $staff = $entity->getStaff();
                 foreach($staff as $employee) {
                     $res = $this->saveEmployee($connection, $employee, $result->getId());
@@ -57,7 +57,7 @@ class MovieRepository extends Repository
         return $result;
     }
 
-    private function saveEmployee(\mysqli $connection, objects\Employee $employee, int $movieId) : bool {
+    private function saveEmployee(\mysqli $connection, models\Employee $employee, int $movieId) : bool {
         if($connection === null || $employee === null || $employee->getPerson() === null || $employee->getRole() === null) {
             return false;
         }
@@ -99,7 +99,7 @@ class MovieRepository extends Repository
             $result = $stmt->get_result();
 
             while ($row = $result->fetch_array(MYSQLI_NUM)) {
-                $movie = new objects\Movie($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], new objects\Category($row[6], $row[11]), $row[7], $row[8], $row[9]);
+                $movie = new models\Movie($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], new models\Category($row[6], $row[11]), $row[7], $row[8], $row[9]);
                 $staff = $this->loadStaff($connection, $movie->getId());
                 $movie->addStaff(...$staff);
                 $values[] = $movie;
@@ -125,7 +125,7 @@ class MovieRepository extends Repository
 
         $values = [];
         while ($row = $result->fetch_array(MYSQLI_NUM)) {
-            $values[] = new objects\Employee($row[0], new objects\Person($row[4], $row[5]), new objects\Role($row[6], $row[7]));
+            $values[] = new models\Employee($row[0], new models\Person($row[4], $row[5]), new models\Role($row[6], $row[7]));
         }
 
         return $values;

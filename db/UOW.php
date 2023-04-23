@@ -1,12 +1,12 @@
 <?php
 
-namespace orm;
+namespace db;
 
-require_once 'orm/DB.php';
-require_once 'orm/controllers/CategoryRepository.php';
-require_once 'orm/controllers/RoleRepository.php';
-require_once 'orm/controllers/PersonRepository.php';
-require_once 'orm/controllers/MovieRepository.php';
+require_once 'db/DB.php';
+require_once 'db/Controllers/CategoryRepository.php';
+require_once 'db/Controllers/RoleRepository.php';
+require_once 'db/Controllers/PersonRepository.php';
+require_once 'db/Controllers/MovieRepository.php';
 
 class UOW
 {

@@ -1,9 +1,9 @@
 <?php
 
 namespace controllers;
-use objects;
-require_once 'orm/objects/Category.php';
-require_once 'orm/controllers/Repository.php';
+use models;
+require_once 'db/Models/Category.php';
+require_once 'db/Controllers/Repository.php';
 
 class CategoryRepository extends Repository
 {
@@ -28,7 +28,7 @@ class CategoryRepository extends Repository
             $stmt->bind_param('s', $value);
 
             if ($stmt->execute() === true) {
-                $result = new \objects\Category($connection->insert_id, $entity->getValue());
+                $result = new \models\Category($connection->insert_id, $entity->getValue());
             }
 
         } finally {
@@ -63,7 +63,7 @@ class CategoryRepository extends Repository
             $result = $stmt->get_result();
 
             while ($row = $result->fetch_array(MYSQLI_NUM)) {
-                $values[] = new objects\Category($row[0], $row[1]);
+                $values[] = new models\Category($row[0], $row[1]);
             }
 
         } finally {
