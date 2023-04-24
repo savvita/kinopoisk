@@ -2,8 +2,8 @@
 
 namespace controllers;
 use models;
-require_once 'db/Models/Role.php';
-require_once 'db/Controllers/Repository.php';
+require_once __DIR__ . '\..\Models\Role.php';
+require_once 'Repository.php';
 
 class RoleRepository extends Repository
 {

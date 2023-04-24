@@ -2,18 +2,18 @@
 
 namespace db;
 
-require_once 'db/DB.php';
-require_once 'db/Controllers/CategoryRepository.php';
-require_once 'db/Controllers/RoleRepository.php';
-require_once 'db/Controllers/PersonRepository.php';
-require_once 'db/Controllers/MovieRepository.php';
+require_once 'DB.php';
+require_once 'Controllers\CategoryRepository.php';
+require_once 'Controllers\RoleRepository.php';
+require_once 'Controllers\PersonRepository.php';
+require_once 'Controllers\MovieRepository.php';
 
 class UOW
 {
     private $categories;
     private $roles;
     private $people;
-    private $mpvoes;
+    private $movies;
     public function __construct($db)
     {
         $this->categories = new \controllers\CategoryRepository($db);

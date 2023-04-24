@@ -2,9 +2,9 @@
 
 namespace controllers;
 use models;
-require_once 'db/Models/Movie.php';
-require_once 'db/Models/Employee.php';
-require_once 'db/Controllers/Repository.php';
+require_once __DIR__ . '\..\Models\Employee.php';
+require_once __DIR__ . '\..\Models\Movie.php';
+require_once 'Repository.php';
 
 class MovieRepository extends Repository
 {
@@ -134,7 +134,7 @@ class MovieRepository extends Repository
     public function update($entity)
     {
         if($entity === null) {
-            return;
+            return null;
         }
 
         $connection = null;
@@ -143,7 +143,7 @@ class MovieRepository extends Repository
             $connection = $this->db->connect();
 
             if($connection->connect_error) {
-                return false;
+                return null;
             }
 
             $stmt = $connection->prepare("UPDATE movies SET title=?,originalTitle=?,description=?,year=?,duration=?,categoryId=?,rate=?,votes=?,premium=? WHERE id=?");
@@ -200,7 +200,7 @@ class MovieRepository extends Repository
     public function delete($id)
     {
         if($id === null) {
-            return;
+            return false;
         }
 
         $connection = null;

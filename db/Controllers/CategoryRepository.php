@@ -2,8 +2,8 @@
 
 namespace controllers;
 use models;
-require_once 'db/Models/Category.php';
-require_once 'db/Controllers/Repository.php';
+require_once __DIR__ . '\..\Models\Category.php';
+require_once 'Repository.php';
 
 class CategoryRepository extends Repository
 {
