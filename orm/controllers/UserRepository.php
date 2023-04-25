@@ -1,13 +1,44 @@
 <?php
 
 namespace controllers;
-require_once 'orm/objects/User.php';
+use objects\User;
+
+require_once __DIR__ . '\..\objects\User.php';
+require_once 'Repository.php';
 class UserRepository extends Repository
 {
+    private function validate($entity) : bool {
+        if($entity === null) {
+            return false;
+        }
+
+        if(empty($entity->getLogin()) || empty($entity->getPassword())) {
+            return false;
+        }
+
+        if(strlen($entity->getLogin()) < 4 || strlen($entity->getLogin()) > 15) {
+            return false;
+        }
+
+        if(strlen($entity->getPassword()) < 4 || strlen($entity->getPassword()) > 15) {
+            return false;
+        }
+
+        return true;
+    }
 
     public function create($entity)
     {
         if($entity === null) {
+            return null;
+        }
+
+        if($this->validate($entity) === false) {
+            return null;
+        }
+
+        $users = $this->select($entity->getLogin());
+        if($users !== null || count($users) !== 0) {
             return null;
         }
 
@@ -50,7 +81,7 @@ class UserRepository extends Repository
 
             if (!empty($searchTxt)) {
                 $searchTxt = trim($searchTxt);
-                $query .= " WHERE value = ?";
+                $query .= " WHERE login = ?";
             }
             $stmt = $connection->prepare($query);
 
@@ -62,7 +93,7 @@ class UserRepository extends Repository
             $result = $stmt->get_result();
 
             while ($row = $result->fetch_array(MYSQLI_NUM)) {
-                $values[] = new objects\User($row[0], $row[1], $row[2], $row[3]);
+                $values[] = new User($row[0], $row[1], $row[2], $row[3]);
             }
 
         } finally {
@@ -77,6 +108,14 @@ class UserRepository extends Repository
         if($entity === null) {
             return;
         }
+        if($this->validate($entity) === false) {
+            return null;
+        }
+
+        if($this->select($entity->getLogin()) !== null) {
+            return null;
+        }
+
 
         $connection = null;
 
@@ -105,7 +144,7 @@ class UserRepository extends Repository
     public function delete($id)
     {
         if($id === null) {
-            return;
+            return false;
         }
 
         $connection = null;
@@ -117,11 +156,12 @@ class UserRepository extends Repository
             }
             $stmt = $connection->prepare("DELETE FROM users WHERE id=?");
             $stmt->bind_param("i", $id);
-            $res = $stmt->execute();
+            $stmt->execute();
+            $res = $stmt->affected_rows;
         } finally {
             $connection->close();
         }
 
-        return $res;
+        return $res !== 0;
     }
 }
